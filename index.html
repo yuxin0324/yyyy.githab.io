@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.5.1.min.js"></script>
+    <title>翻牌遊戲</title>
+    <style>
+        div{
+            width: 1500px;
+            height: 350px;
+           
+        }
+        .upcard{
+            width: 200px;
+            height: 200px;
+            font-size: 80px;
+            background-color: navajowhite;
+        }
+        .downcard{
+            width: 200px;
+            height: 200px;
+            font-size: 80px;
+            background-color: navajowhite;
+       
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <input type="button" value="" class="upcard">
+        <input type="button" value="" class="upcard">
+        <input type="button" value="" class="upcard">
+        <input type="button" value="" class="upcard">
+    </div>
+    <div>
+        <input type="button" value="" class="downcard">
+        <input type="button" value="" class="downcard">
+        <input type="button" value="" class="downcard">
+        <input type="button" value="" class="downcard">
+    </div>
+    <input type="button" value="開始翻牌" id="beg"style="font-size:500%;">
+<body background="35.jpg"></body>
+<form action="http://127.0.0.1/50628/p2.html?">
+    <input type="submit" value="到九宮格"style="font-size:400%;" />
+</form>
+</html>
+<script>
+s=['1','2','3','4'];
+var turn="up";
+justclickdata="";
+var rightclick=0;
+    function valClear(){
+        for(i=0;i<4;i++){
+            $(".upcard:eq("+i+")").val("");
+            $(".downcard:eq("+i+")").val("");
+        }
+        
+    }
+    $("#beg").click(function(){
+        turn="up";
+        rightclick=0;
+        s.sort(function(){
+            return Math.random()>0.5?1:-1;
+        });
+        for(i=0;i<4;i++){
+            $(".upcard:eq("+i+")").val(s[i]);
+            $(".upcard:eq("+i+")").data("num",s[i]);
+            
+        }
+        s.sort(function(){
+            return Math.random()>0.5?1:-1;
+        });
+        for(i=0;i<4;i++){
+            $(".downcard:eq("+i+")").val(s[i]);
+            $(".downcard:eq("+i+")").data("num",s[i]);
+        }
+        setTimeout("valClear()",1000);
+         
+    });
+
+    $(".upcard").click(function(){
+        if(turn=="up"){ 
+            $(this).val($(this).data("num"));
+            turn="down";
+            justclickdata=$(this).data("num");
+        }
+    });
+    $(".downcard").click(function(){
+        if(turn=="down"){
+            if($(this).data("num")==justclickdata) {
+                $(this).val($(this).data("num"));
+                turn="up";
+                rightclick++;
+                if(rightclick==4){
+                    alert("You Win!!!");
+                }
+            }else{
+                for(i=0;i<4;i++){
+                    $(".upcard:eq("+i+")").val("");
+                    $(".downcard:eq("+i+")").val("");
+                }
+                turn="up";
+                rightclick=0;
+            }
+            
+           
+      
+        }
+    });
+    
+</script>
